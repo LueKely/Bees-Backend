@@ -5,7 +5,7 @@ const port = 3000;
 // Define your routes and middleware here
 
 app.get('/', (req: Request, res: Response) => {
-	res.send('Hello, Express with TypeScript!');
+	res.send('Goo Goo gaa gaa i am a babywaby');
 });
 
 app.listen(port, () => {
