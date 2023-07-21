@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import sessions from './routes/session';
+import cookieParser from 'cookie-parser';
 import 'express-async-errors';
 
 const app = express();
@@ -13,5 +13,6 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);
 });
+app.use(cookieParser());
 app.use(express.json());
 app.use('/session', sessions);
