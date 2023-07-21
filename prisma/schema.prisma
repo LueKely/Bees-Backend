@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  user_id    Int      @id
+  session_id String
+  created_at DateTime @default(now())
+
+  // Define the relation to tbl_chat_messages
+  chat_messages Message[] @relation("SessionToMessage")
+
+  // Add the opposite relation field for the participants in the Participant model
+  participants Participant[] @relation("SessionToParticipant")
+}
+
+model ChatRoom {
+  room_id     Int      @id
+  name        String
+  description String?
+  created_at  DateTime @default(now())
+  created_by  Int?
+
+  // Define the relation to tbl_chat_messages
+  chat_messages Message[] @relation("ChatRoomToMessage")
+
+  // Define the relation to tbl_chat_room_participants
+  participants Participant[] @relation("RoomToParticipant")
+
+  // Add other columns for chat room information if needed
+}
+
+model Message {
+  message_id Int      @id
+  room_id    Int
+  user_id    Int
+  content    String?
+  sent_at    DateTime @default(now())
+
+  // Define the relation to tbl_chat_rooms
+  chat_room ChatRoom @relation("ChatRoomToMessage", fields: [room_id], references: [room_id])
+
+  // Define the relation to tbl_sessions
+  session Session @relation("SessionToMessage", fields: [user_id], references: [user_id])
+}
+
+model Participant {
+  participant_id Int      @id
+  room_id        Int
+  user_id        Int
+  joined_at      DateTime @default(now())
+
+  // Define the relation to tbl_chat_rooms
+  chat_room ChatRoom @relation("RoomToParticipant", fields: [room_id], references: [room_id])
+
+  // Add the opposite relation field for the session in the Session model
+  session Session @relation("SessionToParticipant", fields: [user_id], references: [user_id])
+}
