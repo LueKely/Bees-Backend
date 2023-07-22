@@ -13,6 +13,9 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);
 });
+
+// middleware
 app.use(cookieParser());
 app.use(express.json());
+// routes
 app.use('/session', sessions);
