@@ -7,6 +7,13 @@
 # doing
 
 - room participants
+
+  - checks if the room is expired or not
+  - checks if the room exists
+    -return error if does not exist
+  - if exists
+    - add as a room participant
+
 - create messages
 
 # done

@@ -2,9 +2,10 @@ import express, { Request, Response } from 'express';
 import checkCookieExpiration from '../middleware/cookiesMiddleware';
 import roomController from '../controller/roomController';
 const room = express.Router();
-
-room.put('/', checkCookieExpiration, roomController.generateRoom);
-room.get('/', checkCookieExpiration, roomController.getRooms);
-room.get('/archived', checkCookieExpiration, roomController.getArchivedRooms);
-
+room.use(checkCookieExpiration);
+room.put('/', roomController.generateRoom);
+room.get('/', roomController.getRooms);
+room.get('/archived', roomController.getArchivedRooms);
+room.put('/participants', roomController.joinRoom);
+room.get('/participants', roomController.getParticipants);
 export default room;
