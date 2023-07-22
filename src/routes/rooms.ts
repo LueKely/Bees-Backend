@@ -5,5 +5,6 @@ const room = express.Router();
 
 room.put('/', checkCookieExpiration, roomController.generateRoom);
 room.get('/', checkCookieExpiration, roomController.getRooms);
+room.get('/archived', checkCookieExpiration, roomController.getArchivedRooms);
 
 export default room;

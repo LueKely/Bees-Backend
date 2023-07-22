@@ -6,12 +6,12 @@
 
 # doing
 
-- create room
-- join room
-
+- room participants
 - create messages
 
 # done
 
+- join room filter room
+- create room
 - create random numbers
 - store them as cookies
