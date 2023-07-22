@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import sessions from './routes/session';
+import room from './routes/rooms';
 import cookieParser from 'cookie-parser';
 import 'express-async-errors';
 
@@ -19,3 +20,4 @@ app.use(cookieParser());
 app.use(express.json());
 // routes
 app.use('/session', sessions);
+app.use('/room', room);

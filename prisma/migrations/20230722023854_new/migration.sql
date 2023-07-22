@@ -1,10 +1,10 @@
 -- CreateTable
 CREATE TABLE "Session" (
-    "user_id" INTEGER NOT NULL,
     "session_id" TEXT NOT NULL,
+    "user_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Session_pkey" PRIMARY KEY ("user_id")
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("session_id")
 );
 
 -- CreateTable
@@ -38,6 +38,12 @@ CREATE TABLE "Participant" (
 
     CONSTRAINT "Participant_pkey" PRIMARY KEY ("participant_id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Session_session_id_key" ON "Session"("session_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Session_user_id_key" ON "Session"("user_id");
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_room_id_fkey" FOREIGN KEY ("room_id") REFERENCES "ChatRoom"("room_id") ON DELETE RESTRICT ON UPDATE CASCADE;

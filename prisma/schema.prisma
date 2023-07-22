@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Session {
-  user_id    Int      @id
-  session_id String
-  created_at DateTime @default(now())
+  session_id  String   @id @unique
+  user_id     Int      @unique
+  created_at  DateTime @default(now())
 
   // Define the relation to tbl_chat_messages
   chat_messages Message[] @relation("SessionToMessage")
