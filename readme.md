@@ -6,6 +6,14 @@
 
 # doing
 
+- create messages
+- websockets
+  - room participants
+  - messages from rooms
+    - this should only listen to groups you have entered
+
+# done
+
 - room participants
 
   - checks if the room is expired or not
@@ -13,10 +21,6 @@
     -return error if does not exist
   - if exists
     - add as a room participant
-
-- create messages
-
-# done
 
 - join room filter room
 - create room
