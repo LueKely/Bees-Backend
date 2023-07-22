@@ -31,7 +31,7 @@ export default {
 
 	async getAllSessions(req: Request, res: Response) {
 		const data = await prisma.session.findMany({
-			select: { session_id: true, created_at: true },
+			select: { user_id: true, created_at: true },
 		});
 		res.send(data);
 	},
