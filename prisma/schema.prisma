@@ -43,6 +43,7 @@ model Message {
   room_id    Int
   user_id    Int
   content    String?
+  iv         String
   sent_at    DateTime @default(now())
 
   // Define the relation to tbl_chat_rooms

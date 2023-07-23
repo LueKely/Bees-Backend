@@ -7,6 +7,9 @@
 # doing
 
 - create messages
+- get rooms you are in
+- room caching
+
 - websockets
   - room participants
   - messages from rooms
