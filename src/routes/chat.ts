@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { Router } from 'express';
 import chatController from '../controller/chatController';
 import checkCookieExpiration from '../middleware/cookiesMiddleware';

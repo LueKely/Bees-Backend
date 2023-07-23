@@ -6,6 +6,7 @@
 
 # doing
 
+- cors implementation
 - add express-session
 - create messages
 - get rooms you are in
