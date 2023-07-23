@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import { encryptMessage } from '../utils/encryption';
+import utilities from '../utils/utilities';
 const prisma = new PrismaClient();
 
 export default {
@@ -16,7 +17,7 @@ export default {
 		try {
 			await prisma.message.create({
 				data: {
-					message_id: 4,
+					message_id: utilities.generateSixDigitRandomNumber(),
 					room_id: roomId,
 					user_id: userId,
 					content: message.encryptedContent,

@@ -16,4 +16,10 @@ export default {
 		const randomNumber = randomBytes.readUInt16BE(0) % 10000;
 		return randomNumber;
 	},
+
+	generateSixDigitRandomNumber(): number {
+		const min = 100000; // Minimum six-digit number (100000)
+		const max = 999999; // Maximum six-digit number (999999)
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	},
 };
