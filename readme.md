@@ -6,6 +6,7 @@
 
 # doing
 
+- add express-session
 - create messages
 - get rooms you are in
 - room caching

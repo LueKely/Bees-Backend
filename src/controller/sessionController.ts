@@ -41,6 +41,7 @@ export default {
 
 		const data = await prisma.session.findUnique({
 			where: { session_id: sessionId },
+			select: { session_id: false },
 		});
 
 		if (!data) {
