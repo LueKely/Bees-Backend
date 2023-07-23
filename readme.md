@@ -14,10 +14,9 @@
 
 # doing
 
-- get chats from rooms that user joined
-
 # done
 
+- get chats from rooms that user joined
 - join room when you make a room
 - create messages
 - get rooms you are in
