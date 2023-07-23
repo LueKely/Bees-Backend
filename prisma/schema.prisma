@@ -42,7 +42,7 @@ model Message {
   message_id Int      @id
   room_id    Int
   user_id    Int
-  content    String?
+  content    String
   iv         String
   sent_at    DateTime @default(now())
 

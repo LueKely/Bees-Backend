@@ -14,11 +14,11 @@
 
 # doing
 
-- join room when you make a room
-- room caching
+- get chats from rooms that user joined
 
 # done
 
+- join room when you make a room
 - create messages
 - get rooms you are in
 
