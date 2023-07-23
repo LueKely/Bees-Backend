@@ -21,6 +21,7 @@ export default {
 
 			if (!user) {
 				throw new Error('User not found');
+				return;
 			}
 
 			// creates room

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 function checkRoomExpiration(req: Request, res: Response, next: NextFunction) {
 	// Get the "created_at" timestamp from the entity
-	const roomTimestamp = req.body.date as Date;
+	const roomTimestamp = new Date(req.body.date as string);
 
 	// Get the current time
 	const currentTime = new Date();
