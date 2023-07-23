@@ -93,6 +93,7 @@ export default {
 
 			if (checkParticipant != 0) {
 				res.status(409).send('User is already joined the room');
+				return;
 			}
 
 			if (!room) {
@@ -101,7 +102,7 @@ export default {
 			}
 
 			if (room.created_at < today) {
-				res.status(400).send('Room has expired');
+				res.status(400);
 				return;
 			}
 
@@ -116,7 +117,7 @@ export default {
 			res.sendStatus(200);
 		} catch (error) {
 			console.error('Error joining room:', error);
-			res.sendStatus(500).send('Internal Server Error');
+			return res.status(500).send('Internal Server Error');
 		}
 	},
 	async getParticipants(req: Request, res: Response) {
