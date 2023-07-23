@@ -6,26 +6,46 @@ const prisma = new PrismaClient();
 export default {
 	async generateRoom(req: Request, res: Response) {
 		// create room id
-
 		const roomId = utilities.createId();
+		// get participant id
+		const participantId = utilities.createId();
 		// get session id
 		const sessionId = req.cookies.session as string;
 		// fetches user id from the session key
-		const user = await prisma.session.findUnique({
-			where: { session_id: sessionId },
-			select: { user_id: true },
-		});
-		// creates room
-		const room = await prisma.chatRoom.create({
-			data: {
-				room_id: roomId,
-				name: req.body.name,
-				description: req.body.description,
-				created_by: user?.user_id,
-			},
-		});
 
-		res.send('Creation Complete');
+		try {
+			const user = await prisma.session.findUnique({
+				where: { session_id: sessionId },
+				select: { user_id: true },
+			});
+
+			if (!user) {
+				throw new Error('User not found');
+			}
+
+			// creates room
+			const room = await prisma.chatRoom.create({
+				data: {
+					room_id: roomId,
+					name: req.body.name,
+					description: req.body.description,
+					created_by: user?.user_id,
+				},
+			});
+			// add the host as participant
+			const participants = await prisma.participant.create({
+				data: {
+					participant_id: participantId,
+					room_id: room.room_id,
+					user_id: user.user_id,
+				},
+			});
+
+			res.send('Creation Complete');
+		} catch (error) {
+			console.error('Error joining room:', error);
+			return res.status(500).send('Internal Server Error');
+		}
 	},
 	async getRooms(req: Request, res: Response) {
 		const today = new Date();
@@ -136,6 +156,11 @@ export default {
 	},
 	async getJoinedRooms(req: Request, res: Response) {
 		const user = req.body.user_id as number;
+
+		const sessionId = req.cookies.session as string;
+		// fetches user id from the session key
+
+		// fetches user
 		const participants = await prisma.participant.findMany({
 			where: {
 				user_id: user,

@@ -1,25 +1,26 @@
 # Todo
 
-# creating a session
+# websockets things:
 
-## how do i do that
+- websockets
+- room participants
+- messages from rooms
+  - this should only listen to groups you have entered
 
-# doing
+# build
 
 - cors implementation
 - add express-session
-- create messages
-- get rooms you are in
+
+# doing
+
+- join room when you make a room
 - room caching
 
-  - might send room details as cookies?
-
-- websockets
-  - room participants
-  - messages from rooms
-    - this should only listen to groups you have entered
-
 # done
+
+- create messages
+- get rooms you are in
 
 - room participants
 

@@ -14,7 +14,6 @@ export default {
 
 		//generate expiration date
 		const oneDayInSeconds = 24 * 60 * 60; // 24 hours in seconds
-		const expirationDate = new Date(Date.now() + oneDayInSeconds * 1000); // Current time + 24 hours
 
 		await prisma.session.create({
 			data: { user_id: id, session_id: session },
