@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import sessions from './routes/session';
 import room from './routes/rooms';
+import chat from './routes/chat';
 import cookieParser from 'cookie-parser';
 import 'express-async-errors';
 
@@ -21,3 +22,4 @@ app.use(express.json());
 // routes
 app.use('/session', sessions);
 app.use('/room', room);
+app.use('/chat', chat);
