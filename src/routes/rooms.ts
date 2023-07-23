@@ -8,4 +8,5 @@ room.get('/', roomController.getRooms);
 room.get('/archived', roomController.getArchivedRooms);
 room.put('/participants', roomController.joinRoom);
 room.get('/participants', roomController.getParticipants);
+room.get('/my', roomController.getJoinedRooms);
 export default room;

@@ -35,4 +35,18 @@ export default {
 		});
 		res.send(data);
 	},
+
+	async getUserInfo(req: Request, res: Response) {
+		const sessionId = req.cookies.session as string;
+
+		const data = await prisma.session.findUnique({
+			where: { session_id: sessionId },
+		});
+
+		if (!data) {
+			return res.send(400);
+		}
+
+		res.send(data);
+	},
 };

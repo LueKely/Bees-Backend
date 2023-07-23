@@ -7,5 +7,5 @@ const sessions = express.Router();
 sessions.put('/', sessionController.createSession);
 // get all session
 sessions.get('/', checkCookieExpiration, sessionController.getAllSessions);
-
+sessions.get('/user', checkCookieExpiration, sessionController.getUserInfo);
 export default sessions;

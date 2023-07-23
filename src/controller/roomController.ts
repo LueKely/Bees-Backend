@@ -134,4 +134,19 @@ export default {
 			res.sendStatus(500).send('Internal Server Error');
 		}
 	},
+	async getJoinedRooms(req: Request, res: Response) {
+		const user = req.body.user_id as number;
+
+		const sessionId = req.cookies.session as string;
+		// fetches user id from the session key
+
+		// fetches user
+		const participants = await prisma.participant.findMany({
+			where: {
+				user_id: user,
+			},
+			select: { room_id: true },
+		});
+		res.send(participants);
+	},
 };
