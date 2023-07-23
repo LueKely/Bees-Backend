@@ -10,6 +10,8 @@
 - get rooms you are in
 - room caching
 
+  - might send room details as cookies?
+
 - websockets
   - room participants
   - messages from rooms
