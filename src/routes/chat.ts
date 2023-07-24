@@ -6,6 +6,6 @@ import checkRoomExpiration from '../middleware/roomCache';
 const chat = Router();
 
 chat.use(checkCookieExpiration);
-chat.put('/', checkRoomExpiration, chatController.sendMessage);
+chat.post('/', checkRoomExpiration, chatController.sendMessage);
 chat.get('/', chatController.getMessages);
 export default chat;

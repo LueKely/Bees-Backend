@@ -7,7 +7,6 @@ function checkCookieExpiration(
 ): void {
 	const cookieName = 'session';
 	const cookieValue = req.cookies[cookieName];
-
 	if (!cookieValue) {
 		// Cookie not found
 		res.status(401).send('Access denied. Please log in to access this route.');

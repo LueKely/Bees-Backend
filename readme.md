@@ -10,7 +10,6 @@
 # build
 
 - cors implementation
-- add express-session
 
 # doing
 
@@ -37,3 +36,8 @@
 - create room
 - create random numbers
 - store them as cookies
+
+# cancelled
+
+- add express-session
+  reason: it did not fit
