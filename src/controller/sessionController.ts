@@ -40,11 +40,11 @@ export default {
 
 		const data = await prisma.session.findUnique({
 			where: { session_id: sessionId },
-			select: { session_id: false },
+			select: { user_id: true, created_at: true },
 		});
 
 		if (!data) {
-			return res.send(400);
+			return res.sendStatus(400);
 		}
 
 		res.send(data);
