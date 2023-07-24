@@ -11,21 +11,13 @@ export default {
 		const id = crypto.randomBytes(3).readUIntBE(0, 3) % 1000000;
 		// generate session id
 		const session = utilities.generateSession();
-
 		//generate expiration date
-		const oneDayInSeconds = 24 * 60 * 60; // 24 hours in seconds
-
 		await prisma.session.create({
 			data: { user_id: id, session_id: session },
 		});
-
 		// generates cookies
-		res.cookie('session', session, {
-			maxAge: oneDayInSeconds * 1000,
-			httpOnly: true,
-		});
-
-		return res.send('success');
+		req.session.user = session;
+		return res.send(req.session);
 	},
 
 	async getAllSessions(req: Request, res: Response) {
@@ -36,13 +28,11 @@ export default {
 	},
 
 	async getUserInfo(req: Request, res: Response) {
-		const sessionId = req.cookies.session as string;
-
+		const sessionId = req.session.user;
 		const data = await prisma.session.findUnique({
 			where: { session_id: sessionId },
 			select: { user_id: true, created_at: true },
 		});
-
 		if (!data) {
 			return res.sendStatus(400);
 		}
