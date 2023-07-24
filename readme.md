@@ -14,6 +14,10 @@
 
 # doing
 
+-testing
+
+- websockets
+
 # done
 
 - get chats from rooms that user joined
