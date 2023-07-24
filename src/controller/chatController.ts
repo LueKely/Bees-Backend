@@ -34,15 +34,19 @@ export default {
 		const roomId = req.body.room_id;
 		const chat = await prisma.message.findMany({
 			where: { room_id: roomId },
-			select: { content: true, iv: true, sent_at: true },
+			select: { user_id: true, content: true, iv: true, sent_at: true },
 		});
 		if (!chat) res.sendStatus(404).send('room not found');
 
-		let payload: { message: string; date: Date }[] = [];
+		let payload: { user_id: number; message: string; date: Date }[] = [];
 
 		chat.forEach((element) => {
 			const content = decryptMessage(element.content, element.iv);
-			payload.push({ message: content, date: element.sent_at });
+			payload.push({
+				user_id: element.user_id,
+				message: content,
+				date: element.sent_at,
+			});
 		});
 
 		res.send(payload);

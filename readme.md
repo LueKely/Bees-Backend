@@ -13,11 +13,13 @@
 
 # doing
 
--testing
+-use params
 
 - websockets
 
 # done
+
+-testing
 
 - get chats from rooms that user joined
 - join room when you make a room
