@@ -16,7 +16,7 @@ export default {
 			data: { user_id: id, session_id: session },
 		});
 		// generates cookies
-		req.session.user = session;
+		req.session.newSession = session;
 		return res.send(req.session);
 	},
 
@@ -28,7 +28,7 @@ export default {
 	},
 
 	async getUserInfo(req: Request, res: Response) {
-		const sessionId = req.session.user;
+		const sessionId = req.session.newSession;
 		const data = await prisma.session.findUnique({
 			where: { session_id: sessionId },
 			select: { user_id: true, created_at: true },

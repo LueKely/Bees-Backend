@@ -22,7 +22,7 @@ function checkCookieExpiration(
 		res.status(401).send('No session');
 		return;
 	}
-	if (!req.session.user) {
+	if (!req.session.newSession) {
 		res.status(401).send('No session user');
 		return;
 	}

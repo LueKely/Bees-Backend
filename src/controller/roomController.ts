@@ -10,7 +10,7 @@ export default {
 		// get participant id
 		const participantId = utilities.createId();
 		// get session id
-		const sessionId = req.cookies.session as string;
+		const sessionId = req.session.newSession;
 		// fetches user id from the session key
 
 		try {
@@ -90,7 +90,7 @@ export default {
 
 		try {
 			// get session id
-			const sessionId = req.cookies.session as string;
+			const sessionId = req.session.newSession;
 			// fetches user id from the session key
 			const user = await prisma.session.findUnique({
 				where: { session_id: sessionId },
