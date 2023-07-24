@@ -5,29 +5,27 @@ function checkCookieExpiration(
 	res: Response,
 	next: NextFunction
 ): void {
-	const cookieName = 'session';
-	const cookieValue = req.cookies[cookieName];
+	// Check if the session cookie has an expiration date
+	if (req.session && req.session.cookie && req.session.cookie.expires) {
+		const currentTimestamp = Date.now();
+		const cookieExpirationTimestamp = new Date(
+			req.session.cookie.expires
+		).getTime();
 
-	if (!cookieValue) {
-		// Cookie not found
-		res.status(401).send('Access denied. Please log in to access this route.');
-		return;
-	}
-
-	const expires = req.cookies[`${cookieName}.Expires`];
-	if (expires) {
-		const expirationDate = new Date(expires);
-		const currentTime = new Date();
-		if (expirationDate <= currentTime) {
-			// The cookie is expired
-			res.clearCookie(cookieName); // Clear the expired cookie from the browser
-			res
-				.status(401)
-				.send('Access denied. The cookie has expired. Please log in again.');
+		// Compare the current time with the expiration time of the session cookie
+		if (currentTimestamp > cookieExpirationTimestamp) {
+			res.status(401).send('Session cookie has expired.');
 			return;
 		}
 	}
-
+	if (!req.session) {
+		res.status(401).send('No session');
+		return;
+	}
+	if (!req.session.user) {
+		res.status(401).send('No session user');
+		return;
+	}
 	// The cookie is still valid, continue to the next middleware/route
 	next();
 }
