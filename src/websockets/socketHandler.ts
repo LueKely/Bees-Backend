@@ -5,31 +5,32 @@ import { PrismaClient } from '@prisma/client';
 const primsa = new PrismaClient();
 
 export default {
-	async ping(socket: Socket) {
-		socket.on('ping', () => {
-			socket.emit('ping');
+	ping(socket: Socket) {
+		socket.on('ping', (arg) => {
+			console.log('USER HAS PINGED');
+			socket.emit('pong', 'pong');
 		});
 	},
 
-	async handleJoinRoom(socket: Socket) {
+	handleJoinRoom(socket: Socket) {
 		socket.on('join-room', (room: string) => {
 			socket.join(room);
 			console.log(`Socket ${socket.id} joined room: ${room}`);
 		});
 	},
 
-	async handleSendMessage(socket: Socket) {
+	handleSendMessage(socket: Socket) {
 		socket.on('send-message', (message: any, room: string) => {
 			socket.to(room).emit('recieve-message', message);
 		});
 	},
 
-	async handleAddParticipant(socket: Socket) {
+	handleAddParticipant(socket: Socket) {
 		socket.on('add-pariticipant', (room: string) => {
 			socket.to(room).emit('increment-pariticipant');
 		});
 	},
-	async middleware(socket: Socket, next: (err?: any) => void) {
+	middleware(socket: Socket, next: (err?: any) => void) {
 		socket.onAny((event, ...args) => {
 			console.log(`Incoming event: ${event}`);
 			console.log(`Data received: ${JSON.stringify(args)}`);
