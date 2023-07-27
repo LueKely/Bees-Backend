@@ -1,7 +1,8 @@
 import { Socket } from 'socket.io';
 import cookie from 'cookie';
+import utilities from '../utils/utilities';
 import { PrismaClient } from '@prisma/client';
-
+import { encryptMessage } from '../utils/encryption';
 const primsa = new PrismaClient();
 
 export default {
@@ -20,9 +21,32 @@ export default {
 	},
 
 	handleSendMessage(socket: Socket) {
-		socket.on('send-message', (message: any, room: string) => {
-			socket.to(room).emit('recieve-message', message);
-		});
+		socket.on(
+			'send-message',
+			async (message: string, room: number, userId: number) => {
+				try {
+					const input = encryptMessage(message);
+
+					if (!input) {
+						console.error('joe');
+						return;
+					}
+
+					await primsa.message.create({
+						data: {
+							user_id: userId,
+							room_id: room,
+							content: input?.encryptedContent,
+							message_id: utilities.generateSixDigitRandomNumber(),
+							iv: input.iv,
+						},
+					});
+					await socket.to(room.toString()).emit('recieve-message', message);
+				} catch (error) {
+					console.error('Error creating order:', error);
+				}
+			}
+		);
 	},
 
 	handleAddParticipant(socket: Socket) {
