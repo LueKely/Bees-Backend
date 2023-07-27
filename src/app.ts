@@ -24,14 +24,18 @@ const io = new Server(httpServer, {
 });
 
 // middleware
-io.use(socketHandler.middleware);
-
+io.of('/chat').use(socketHandler.middleware);
+io.of('/room').use(socketHandler.middleware);
 // put all the the shit here
-io.on('connection', (socket: Socket) => {
+io.of('/chat').on('connection', (socket: Socket) => {
 	socketHandler.ping(socket);
+
+	socketHandler.handleSendMessage(socket);
+});
+
+io.of('/room').on('connection', (socket: Socket) => {
 	socketHandler.handleAddParticipant(socket);
 	socketHandler.handleJoinRoom(socket);
-	socketHandler.handleSendMessage(socket);
 });
 
 app.get('/', (req: Request, res: Response) => {
