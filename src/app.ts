@@ -6,6 +6,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { Socket } from 'socket.io';
 
+import socketHandler from './websockets/socketHandler';
+
 import sessions from './routes/session';
 import room from './routes/rooms';
 import chat from './routes/chat';
@@ -22,58 +24,18 @@ const io = new Server(httpServer, {
 });
 
 // middleware
-io.use((socket: Socket, next) => {
-	socket.onAny((event, ...args) => {
-		console.log(`Incoming event: ${event}`);
-		console.log(`Data received: ${JSON.stringify(args)}`);
-	});
-
-	if (!socket.handshake.headers.cookie) {
-		const error = new Error('Unauthorized');
-		return next(error);
-	}
-
-	const cookies = cookie.parse(socket.handshake.headers.cookie);
-
-	// Check if the cookie exists and if it is expired
-	if (cookies.session) {
-		const expirationTimestamp = parseInt(cookies.session, 10);
-		const currentTime = Math.floor(Date.now() / 1000); // Convert to UNIX timestamp
-
-		if (currentTime > expirationTimestamp) {
-			const error = new Error('Cookie is expired');
-			return next(error);
-		}
-	}
-
-	console.log(cookies.session); // prints le cookie
-
-	next();
-});
+io.use(socketHandler.middleware);
 
 // put all the the shit here
 io.on('connection', (socket: Socket) => {
-	// sends messages to all the people who are listining to it
-	socket.on('join-room', (room) => {
-		// Join the room
-		socket.join(room);
-
-		// You can perform additional actions here when the client joins the room
-
-		console.log(`Socket ${socket.id} joined room: ${room}`);
-	});
-
-	socket.on('send-message', (message, room) => {
-		socket.to(room).emit('recieve-message', message);
-	});
-	// sends how many shemay are there in the room
-	socket.on('add-pariticipant', (room) => {
-		socket.to(room).emit('increment-pariticipant');
-	});
+	socketHandler.ping(socket);
+	socketHandler.handleAddParticipant(socket);
+	socketHandler.handleJoinRoom(socket);
+	socketHandler.handleSendMessage(socket);
 });
 
 app.get('/', (req: Request, res: Response) => {
-	res.send('Goo Goo gaa gaa i am a babywaby');
+	res.send('The bees knees');
 });
 
 httpServer.listen(port, () => {
