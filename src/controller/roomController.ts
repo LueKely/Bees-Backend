@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import utilities from '../utils/utilities';
 const prisma = new PrismaClient();
@@ -68,19 +68,22 @@ export default {
 	async getArchivedRooms(req: Request, res: Response) {
 		const today = new Date();
 		today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
-
-		const chatRooms = await prisma.chatRoom.findMany({
-			where: {
-				created_at: {
-					lte: today, // Filter by created_at greater than or equal to today's date
+		try {
+			const chatRooms = await prisma.chatRoom.findMany({
+				where: {
+					created_at: {
+						lte: today, // Filter by created_at greater than or equal to today's date
+					},
 				},
-			},
-			orderBy: {
-				created_at: 'desc', // Sort by created_at in descending order (latest first)
-			},
-		});
+				orderBy: {
+					created_at: 'desc', // Sort by created_at in descending order (latest first)
+				},
+			});
 
-		res.send(chatRooms);
+			res.send(chatRooms);
+		} catch (error) {
+			res.status(400).send(error);
+		}
 	},
 	async joinRoom(req: Request, res: Response) {
 		const roomId = req.body.room_id as number;
@@ -162,12 +165,16 @@ export default {
 		// fetches user id from the session key
 
 		// fetches user
-		const participants = await prisma.participant.findMany({
-			where: {
-				user_id: user,
-			},
-			select: { room_id: true },
-		});
-		res.send(participants);
+		try {
+			const participants = await prisma.participant.findMany({
+				where: {
+					user_id: user,
+				},
+				select: { room_id: true },
+			});
+			res.send(participants);
+		} catch (error) {
+			res.status(400).send(error);
+		}
 	},
 };

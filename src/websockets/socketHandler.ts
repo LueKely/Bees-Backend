@@ -12,14 +12,12 @@ export default {
 			socket.emit('pong', 'pong');
 		});
 	},
-
 	handleJoinRoom(socket: Socket) {
 		socket.on('join-room', (room: string) => {
 			socket.join(room);
 			console.log(`Socket ${socket.id} joined room: ${room}`);
 		});
 	},
-
 	handleSendMessage(socket: Socket) {
 		socket.on(
 			'send-message',
@@ -50,10 +48,9 @@ export default {
 			}
 		);
 	},
-
 	handleAddParticipant(socket: Socket) {
-		socket.on('add-pariticipant', (room: string) => {
-			socket.to(room).emit('increment-pariticipant', room);
+		socket.on('add-pariticipant', (room: number, user_id: number) => {
+			socket.to(room.toString()).emit('increment-pariticipant', user_id);
 		});
 	},
 	middleware(socket: Socket, next: (err?: any) => void) {
