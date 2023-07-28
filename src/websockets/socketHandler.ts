@@ -41,7 +41,9 @@ export default {
 							iv: input.iv,
 						},
 					});
-					await socket.to(room.toString()).emit('recieve-message', message);
+					await console.log('PRISMA SENT');
+
+					socket.to(room.toString()).emit('recieve-message', message, userId);
 				} catch (error) {
 					console.error('Error creating order:', error);
 				}
@@ -51,7 +53,7 @@ export default {
 
 	handleAddParticipant(socket: Socket) {
 		socket.on('add-pariticipant', (room: string) => {
-			socket.to(room).emit('increment-pariticipant');
+			socket.to(room).emit('increment-pariticipant', room);
 		});
 	},
 	middleware(socket: Socket, next: (err?: any) => void) {
