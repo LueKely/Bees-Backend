@@ -86,7 +86,7 @@ export default {
 		}
 	},
 	async joinRoom(req: Request, res: Response) {
-		const roomId = req.body.room_id as number;
+		const roomId = Number(req.params.id);
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
 		const participantId = utilities.createId();
@@ -145,7 +145,7 @@ export default {
 		}
 	},
 	async getParticipants(req: Request, res: Response) {
-		const roomId = req.body.room_id as number;
+		const roomId = Number(req.params.id);
 		try {
 			const participants = await prisma.participant.findMany({
 				where: {
@@ -159,10 +159,7 @@ export default {
 		}
 	},
 	async getJoinedRooms(req: Request, res: Response) {
-		const user = req.body.user_id as number;
-
-		const sessionId = req.cookies.session as string;
-		// fetches user id from the session key
+		const user = Number(req.params.user_id);
 
 		// fetches user
 		try {
