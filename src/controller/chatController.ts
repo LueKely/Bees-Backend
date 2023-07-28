@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export default {
 	async sendMessage(req: Request, res: Response) {
 		const input = req.body.message as string;
-		const roomId = req.body.room_id as number;
+		const roomId = Number(req.params.room_id);
 		const userId = req.body.user_id as number;
 		const message = encryptMessage(input);
 		if (!message) {
@@ -31,7 +31,7 @@ export default {
 		}
 	},
 	async getMessages(req: Request, res: Response) {
-		const roomId = req.body.room_id;
+		const roomId = Number(req.params.room_id);
 		const chat = await prisma.message.findMany({
 			where: { room_id: roomId },
 			select: { user_id: true, content: true, iv: true, sent_at: true },
