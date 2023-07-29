@@ -13,8 +13,8 @@ export default {
 		});
 	},
 	handleJoinRoom(socket: Socket) {
-		socket.on('join-room', (room: string) => {
-			socket.join(room);
+		socket.on('join-room', (room: number) => {
+			socket.join(room.toString());
 			console.log(`Socket ${socket.id} joined room: ${room}`);
 		});
 	},

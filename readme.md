@@ -120,3 +120,30 @@ params:
 
 body:
 {user_id:int}
+
+## WEBSOCKETS
+
+"send-message"
+body:
+{
+message: string,
+room: number,
+userId:number,
+date:string, //this is the date of the date
+}
+
+"add-participant"
+
+body:
+
+{
+room: number,
+user_id: number
+}
+
+"jorin-room"
+
+body:
+{
+room:number
+}
