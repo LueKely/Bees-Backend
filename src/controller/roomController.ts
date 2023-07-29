@@ -42,7 +42,7 @@ export default {
 				},
 			});
 
-			res.send('Creation Complete');
+			res.send({ room_id: roomId });
 		} catch (error) {
 			console.error('Error joining room:', error);
 			return res.status(500).send('Internal Server Error');

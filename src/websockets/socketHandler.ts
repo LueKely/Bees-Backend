@@ -21,8 +21,26 @@ export default {
 	handleSendMessage(socket: Socket) {
 		socket.on(
 			'send-message',
-			async (message: string, room: number, userId: number) => {
+			async (message: string, room: number, userId: number, date: string) => {
 				try {
+					const roomTimestamp = new Date(date);
+
+					// Get the current time
+					const currentTime = new Date();
+
+					// Calculate the time difference in milliseconds
+					const timeDifferenceMs =
+						currentTime.getTime() - roomTimestamp.getTime();
+
+					// Calculate the time difference in hours
+					const timeDifferenceHours = timeDifferenceMs / (1000 * 60 * 60);
+
+					if (timeDifferenceHours >= 24) {
+						const err = new Error('date expired');
+						console.log(err);
+						return;
+					}
+
 					const input = encryptMessage(message);
 
 					if (!input) {
